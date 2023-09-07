@@ -1,46 +1,41 @@
+import openpyxl
 import re
 
-def find_state_timezone(address):
-    # Dictionary of state acronyms and their respective time zones
-    state_time_zones = {
-        'AL': 'CST',
-        'AK': 'AKST',
-        'AZ': 'MST',
-        'AR': 'CST',
-        'CA': 'PST',
-        'NY': 'EST',
-        # Add more state acronyms and time zones as needed
+def extract_and_write_timezones(input_excel_file, sheet_name, output_text_file):
+    # Load the Excel workbook
+    try:
+        workbook = openpyxl.load_workbook(input_excel_file)
+    except FileNotFoundError:
+        return "Excel file not found."
+
+    # Select the worksheet where your data is located
+    try:
+        worksheet = workbook[sheet_name]
+    except KeyError:
+        return f"Worksheet '{sheet_name}' not found."
+
+    # Define your state acronym to timezone dictionary
+    state_timezone_dict = {
+        'NY': 'Eastern Time',
+        'NC': 'Eastern Time',
+        # Add more state acronyms and their respective timezones here
     }
 
-    # Regular expression pattern to match state acronyms (case insensitive)
-    state_pattern = r'\b(' + '|'.join(state_time_zones.keys()) + r')\b'
+    # Create or open a file in append mode for writing the timezones
+    with open(output_text_file, 'a') as output_file:
+        for row in worksheet.iter_rows(min_col=1, max_col=1, min_row=2):  # Adjust the row range as needed
+            full_address = row[0].value
 
-    # Function to find and return the state acronym from an address
-    def find_state_acronym(address):
-        match = re.search(state_pattern, address, re.IGNORECASE)
-        if match:
-            return match.group().upper()
-        else:
-            return None
+            # Use a regular expression to find state acronyms in the full address
+            matches = re.findall(r'\b[A-Z]{2}\b', full_address)
 
-    state_acronym = find_state_acronym(address)
-    if state_acronym:
-        timezone = state_time_zones.get(state_acronym)
-        if timezone:
-            return timezone  # Return the time zone value from the dictionary
-        else:
-            return f"No time zone found for state acronym: {state_acronym}"
-    else:
-        return "No state acronym found in the address"
+            # Write the matching acronyms to the output file
+            for match in matches:
+                if match in state_timezone_dict:
+                    output_file.write(f'{state_timezone_dict[match]}\n')
 
-# Sample addresses
-addresses = [
-    "123 Main St, Springfield, IL 62701",
-    "456 Oak Ave, Los Angeles, CA 90001",
-    "789 Elm Rd, New York, NY 10001",
-]
+    return "Timezones extracted and written successfully."
 
-# Call the function for each address and print the result
-for address in addresses:
-    result = find_state_timezone(address)
-    print(result)
+# Usage example:
+result = extract_and_write_timezones('your_excel_file.xlsx', 'Sheet1', 'timezones.txt')
+print(result)
