@@ -1,9 +1,0 @@
-Throughout the year, my efforts were focused on delivering concrete results and enhancing my skills. At the start of the year, I dedicated my time to learning and adapting to the company's operations, making significant progress during my training. Shortly thereafter, I proactively monitored and addressed upcoming downstream router changes, ultimately improving our networking efficiency.
-
-One of the most noteworthy achievements of the year was the successful replacement of older switches in our lab with new ones. This project required  documentation and I was able to automate the generation of tests. By automating this, I was able to complete tests quickly.
-
-I had the privilege of collaborating with a senior engineer on a project involving the upgrade of a 2K SBC. Moving towards the target of this project, I utilized experience and knowledge gained from my networking assignment. 
-
-In terms of professional development, I thrived within our lab environment, effectively applying my academic skills and acquiring new ones. Collaborating on projects with colleagues, including one involving our European counterparts, provided invaluable experiences. My role in establishing a lab in our data center for our European colleagues showcased my ability to work seamlessly with diverse teams and deliver on critical project milestones.
-
-Along side my project work, I have aklso been able to use my Python skills to help team members parse Excel files and generate output. The job has given me plenty of opportunities to exercise my coding skills and keep them crisp and useful. Overall, my accomplishments this year have been driven by a results-oriented approach and a dedication to continuous improvement. I look forward to building upon this foundation in the coming year as I continue to contribute to our company's success.
