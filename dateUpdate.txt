@@ -1,17 +1,14 @@
-# Specify the UNC path to the SharePoint drive
-$uncPath = "\\server\share"
-
-# Specify a specific file within the SharePoint drive to test
-$fileToProcess = "$uncPath\example.txt"
+# Specify the full file path to the file you want to process
+$filePath = "\\server\share\example.txt"
 
 # Check if the specified file exists
-if (-not (Test-Path $fileToProcess)) {
-    Write-Host "The specified file does not exist: $fileToProcess"
+if (-not (Test-Path $filePath)) {
+    Write-Host "The specified file does not exist: $filePath"
     exit
 }
 
 # Get the file object
-$file = Get-Item -Path $fileToProcess
+$file = Get-Item -Path $filePath
 
 # Get the current date and time
 $currentDateTime = Get-Date
@@ -21,5 +18,4 @@ try {
     $file.LastAccessTime = $currentDateTime
     Write-Host "Last access time for $($file.FullName) has been updated successfully."
 } catch {
-    Write-Host "Error updating last access time for $($file.FullName): $_"
-}
+    Writ
