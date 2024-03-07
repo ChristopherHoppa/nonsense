@@ -1,28 +1,25 @@
 # Specify the UNC path to the SharePoint drive
 $uncPath = "\\server\share"
 
-# Check if the path exists
-if (-not (Test-Path $uncPath)) {
-    Write-Host "The specified path does not exist: $uncPath"
+# Specify a specific file within the SharePoint drive to test
+$fileToProcess = "$uncPath\example.txt"
+
+# Check if the specified file exists
+if (-not (Test-Path $fileToProcess)) {
+    Write-Host "The specified file does not exist: $fileToProcess"
     exit
 }
 
-# Get all files in the specified UNC path and its subdirectories
-$files = Get-ChildItem -Path $uncPath -File -Recurse -ErrorAction SilentlyContinue
-if ($files -eq $null) {
-    Write-Host "No files found in the specified path: $uncPath"
-    exit
-}
+# Get the file object
+$file = Get-Item -Path $fileToProcess
 
 # Get the current date and time
 $currentDateTime = Get-Date
 
-# Update the last accessed time of each file
-foreach ($file in $files) {
-    try {
-        $file.LastAccessTime = $currentDateTime
-        Write-Host "$($file.FullName) - OK"
-    } catch {
-        Write-Host "Error updating last access time for $($file.FullName): $_"
-    }
+# Attempt to update the last accessed time of the file
+try {
+    $file.LastAccessTime = $currentDateTime
+    Write-Host "Last access time for $($file.FullName) has been updated successfully."
+} catch {
+    Write-Host "Error updating last access time for $($file.FullName): $_"
 }
