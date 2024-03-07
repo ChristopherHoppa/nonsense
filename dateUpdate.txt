@@ -1,13 +1,28 @@
-$driveLetter = "C:/"
-$files = Get-ChildItem -Path "$driveLetter*" -File -Recurse
+# Specify the UNC path to the SharePoint drive
+$uncPath = "\\server\share"
+
+# Check if the path exists
+if (-not (Test-Path $uncPath)) {
+    Write-Host "The specified path does not exist: $uncPath"
+    exit
+}
+
+# Get all files in the specified UNC path and its subdirectories
+$files = Get-ChildItem -Path $uncPath -File -Recurse -ErrorAction SilentlyContinue
+if ($files -eq $null) {
+    Write-Host "No files found in the specified path: $uncPath"
+    exit
+}
+
+# Get the current date and time
 $currentDateTime = Get-Date
 
+# Update the last accessed time of each file
 foreach ($file in $files) {
-    
-    Write-Host "Checking file: $($file.FullName)"
-
-    if ($file.LastAccessTime -le $currentDateTime) {
+    try {
         $file.LastAccessTime = $currentDateTime
-        Write-Host "File: $($file.FullName) - OK"
+        Write-Host "$($file.FullName) - OK"
+    } catch {
+        Write-Host "Error updating last access time for $($file.FullName): $_"
     }
 }
