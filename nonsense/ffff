@@ -1,0 +1,18 @@
+# Prompt user for the UNC path of the file
+$uncPath = Read-Host "Enter the UNC path of the file"
+
+# Check if the specified file exists
+if (Test-Path $uncPath -PathType Leaf) {
+    try {
+        # Get the last access time of the file
+        $lastAccessTime = (Get-Item $uncPath).LastAccessTime
+
+        # Output the last access time
+        Write-Output "Last access time of $uncPath: $lastAccessTime"
+    }
+    catch {
+        Write-Host "Failed to access last access time for $uncPath: $_" -ForegroundColor Red
+    }
+} else {
+    Write-Host "Specified file does not exist!" -ForegroundColor Red
+}
