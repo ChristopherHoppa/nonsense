@@ -1,0 +1,9 @@
+# Define the path to the file you want to verify access to
+$fileToVerify = "X:\your\share\drive\path\to\file.txt"
+
+# Check if the file exists
+if (Test-Path $fileToVerify -PathType Leaf) {
+    Write-Host "File found: $fileToVerify"
+} else {
+    Write-Host "File not found: $fileToVerify"
+}
