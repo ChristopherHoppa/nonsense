@@ -9,13 +9,14 @@ $files = Get-ChildItem -Path $shareDrivePath -Recurse -File
 
 # Loop through each file and check if last access time is today
 foreach ($file in $files) {
-    # Get the last access time of the file
-    $lastAccessDate = $file.LastAccessTime.ToString("yyyy-MM-dd")
+    # Get the last access time and date of the file
+    $lastAccessDateTime = $file.LastAccessTime
+    $lastAccessDate = $lastAccessDateTime.ToString("yyyy-MM-dd")
 
-    # Check if the last access time is today
+    # Check if the last access date is today
     if ($lastAccessDate -eq $currentDate) {
-        Write-Host "File $($file.FullName): Last access time verified."
+        Write-Host "File $($file.FullName): Last access date $($lastAccessDateTime) verified."
     } else {
-        Write-Host "File $($file.FullName): Last access time does not match today's date."
+        Write-Host "File $($file.FullName): Last access date $($lastAccessDateTime) does not match today's date."
     }
 }
