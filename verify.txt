@@ -1,0 +1,22 @@
+# Define the path to your NTFS share drive
+$shareDrivePath = "X:\your\share\drive"
+
+# Get current date without time
+$currentDate = Get-Date -Format "yyyy-MM-dd"
+
+# Get all files in the share drive and its subdirectories
+$files = Get-ChildItem -Path $shareDrivePath -Recurse -File
+
+# Loop through each file and check if last access time is today
+foreach ($file in $files) {
+    # Get the last access time and date of the file
+    $lastAccessDateTime = $file.LastAccessTime
+    $lastAccessDate = $lastAccessDateTime.ToString("yyyy-MM-dd")
+
+    # Check if the last access date is today
+    if ($lastAccessDate -eq $currentDate) {
+        Write-Host ("{0,-80} {1}" -f "File: $($file.FullName)", "Last Access Date: $($lastAccessDateTime)")
+    } else {
+        Write-Host ("{0,-80} {1}" -f "File: $($file.FullName)", "Last Access Date does not match today's date")
+    }
+}
