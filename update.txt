@@ -1,0 +1,21 @@
+# Define the path to your NTFS share drive
+$shareDrivePath = "X:\your\share\drive"
+
+# Get all files in the share drive and its subdirectories
+$files = Get-ChildItem -Path $shareDrivePath -Recurse -File
+
+# Loop through each file and update the last access time
+foreach ($file in $files) {
+    # Get the current last access time
+    $currentLastAccessTime = $file.LastAccessTime
+
+    # Set the new last access time to the current time
+    $file.LastAccessTime = Get-Date
+    $file.LastAccessTimeUtc = Get-Date
+    $file.Refresh()
+
+    # Output verbose information for each file with aligned columns
+    $fileName = $file.Name
+    $newLastAccessTime = $file.LastAccessTime
+    Write-Host ("{0,-80} {1,-10} {2}" -f $fileName, "OK", $newLastAccessTime)
+}
