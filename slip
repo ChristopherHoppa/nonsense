@@ -1,0 +1,24 @@
+import subprocess
+
+# Function to perform nslookup and get the hostname
+def get_hostname(ip):
+    try:
+        output = subprocess.check_output(["nslookup", ip], stderr=subprocess.STDOUT, text=True)
+        for line in output.split('\n'):
+            if 'name =' in line:
+                # Extract hostname
+                hostname = line.split('=')[-1].strip()
+                return hostname
+        return "None"
+    except subprocess.CalledProcessError:
+        return "None"
+
+# Read IP addresses from file
+with open('ip_addresses.txt', 'r') as infile:
+    ip_addresses = infile.read().splitlines()
+
+# Perform nslookup and write hostnames to another file
+with open('hostnames.txt', 'w') as outfile:
+    for ip in ip_addresses:
+        hostname = get_hostname(ip)
+        outfile.write(hostname + '\n')
